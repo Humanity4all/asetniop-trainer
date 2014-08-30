@@ -288,7 +288,7 @@ class CharacterSelection:
         self.buttons={}
         r=2
         for c in "abcdefghijklmnopqrstuvwxyz1234567890":
-            self.buttons[c]=gui.Checkbutton(master, text=_(c), variable=self.chars[c])
+            self.buttons[c]=gui.Checkbutton(master, text=c, variable=self.chars[c])
             self.buttons[c].grid(row=r, column=2, sticky=gui.W)
             r+=1
 
@@ -297,7 +297,7 @@ class CharacterSelection:
         
         r=2
         for c in ".,!?\'\";:[]{}=+@#$%^&*()_-\\|/<>`~ ":
-            self.buttons[c]=gui.Checkbutton(master, text=_(c), variable=self.chars[c])   
+            self.buttons[c]=gui.Checkbutton(master, text=c, variable=self.chars[c])   
             self.buttons[c].grid(row=r, column=4, sticky=gui.W)
             r+=1
         self.bspecial=gui.Checkbutton(master, text=_("Special"), variable=self.special, command=lambda: self.toggle('special'))
@@ -333,43 +333,13 @@ class KeyEvents:
         """ Listen for keybindings and act accordingly with them """
         self.target=target
 
-        # bind all keys
-        element.bind('a', lambda: self.key('a'))
-        element.bind('b', lambda: self.key('b'))       
-        element.bind('c', lambda: self.key('c'))
-        element.bind('d', lambda: self.key('d'))
-        element.bind('e', lambda: self.key('e'))
-        element.bind('f', lambda: self.key('f'))
-        element.bind('g', lambda: self.key('g'))
-        element.bind('h', lambda: self.key('h'))
-        element.bind('i', lambda: self.key('i'))
-        element.bind('j', lambda: self.key('j'))
-        element.bind('k', lambda: self.key('k'))
-        element.bind('l', lambda: self.key('l'))
-        element.bind('m', lambda: self.key('m'))
-        element.bind('n', lambda: self.key('n'))
-        element.bind('o', lambda: self.key('o'))
-        element.bind('p', lambda: self.key('p'))
-        element.bind('q', lambda: self.key('q'))
-        element.bind('r', lambda: self.key('r'))
-        element.bind('s', lambda: self.key('s'))
-        element.bind('t', lambda: self.key('t'))
-        element.bind('u', lambda: self.key('u'))
-        element.bind('v', lambda: self.key('v'))
-        element.bind('w', lambda: self.key('w'))
-        element.bind('x', lambda: self.key('x'))
-        element.bind('y', lambda: self.key('y'))
-        element.bind('z', lambda: self.key('z'))
-        element.bind('1', lambda: self.key('1'))   
-        element.bind('2', lambda: self.key('2'))
-        element.bind('3', lambda: self.key('3'))
-        element.bind('4', lambda: self.key('4'))
-        element.bind('5', lambda: self.key('5'))
-        element.bind('6', lambda: self.key('6'))
-        element.bind('7', lambda: self.key('7'))
-        element.bind('8', lambda: self.key('8'))
-        element.bind('9', lambda: self.key('9'))
-        element.bind('0', lambda: self.key('0'))
+        for c in "abcdefghijklmnopqrstuvwxyz01234567890.,!?\'\";:[]{}=+@#$%^&*()_-\\|/<>`~ ":
+            if(c=="<"):
+                element.bind('<<>', lambda: self.key('<'))
+            elif(c==" "):
+                element.bind('<space>', lambda: self.key(' '))
+            else:
+                element.bind(c, lambda: self.key(c))
 
     def key(self, k):
         print('detected keypress:', k)
