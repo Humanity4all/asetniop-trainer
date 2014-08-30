@@ -333,7 +333,7 @@ class KeyEvents:
         """ Listen for keybindings and act accordingly with them """
         self.target=target
 
-        for c in "abcdefghijklmnopqrstuvwxyz01234567890.,!?\'\";:[]{}=+@#$%^&*()_-\\|/<>`~ ":
+        for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890.,!?\'\";:[]{}=+@#$%^&*()_-\\|/<>`~ ":
             if(c=="<"):
                 element.bind('<<>', lambda: self.key('<'))
             elif(c==" "):
