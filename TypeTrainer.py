@@ -6,6 +6,8 @@ import tkFont
 import gettext
 import os
 import sqlite3
+import string
+import random
 
 #initialize gettext
 lang="nl"
@@ -15,7 +17,7 @@ _=t.ugettext
 
 class TypeTrainer:
     def __init__(self, master):
-         
+        self.master=master 
         #TODO fetch persistant settings from database
         self.debug=True
         #self.lang="nl"
@@ -152,10 +154,23 @@ class TypeTrainer:
         self.fkeyreview.grid(row=2, column=1, rowspan=15, columnspan=9)
         #set current frame variable so other frames know what to remove when switching
         self.currentframe=self.fkeyreview
-        
+        self.hkeyreviewbindings=KeyEvents(self.master, self.keyreview_play)
+
         #testing
-        self.hkeyreviewhands.showfinger("l1")
-        self.hkeyreviewhands.showfinger("r5")
+        #self.hkeyreviewhands.showfinger("l1")
+        #self.hkeyreviewhands.showfinger("r5")
+    def keyreview_play(self, k):
+        assignment=self.hkeyreviewassignment['text']
+        if(assignment==k):
+            #right! move on!
+            #TODO store stats in db
+            self.hkeyreviewassignment['text']=self.hkeyreviewselection.pick()
+        else:
+            #wrong!
+            #TODO store stats in db
+            #TODO visually indicate a mistake
+            #TODO show how to place fingers
+            pass
     def typingexercise(self):
         """ Type exercise frame
         This frame is dedicated to typing more coherently. It trains typing real world sentences, and builds speed and accuracy."""
@@ -325,24 +340,30 @@ class CharacterSelection:
                     self.chars[c].set(0)
 
     def pick(self):
-        choice=self.characters.keys()[int(random.random()*len(d.keys()))]
+        def pickrand(characters):
+            return characters.keys()[int(random.random()*len(characters.keys()))]
+        choice=pickrand(self.chars)
+        while(self.chars[choice].get()==0):
+            choice=pickrand(self.chars)
         return choice
 
 class KeyEvents:
     def __init__(self, element, target):
         """ Listen for keybindings and act accordingly with them """
         self.target=target
-
+        self.bindings={}
         for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890.,!?\'\";:[]{}=+@#$%^&*()_-\\|/<>`~ ":
             if(c=="<"):
-                element.bind('<<>', lambda: self.key('<'))
-            elif(c==" "):
-                element.bind('<space>', lambda: self.key(' '))
+                self.bindings[c]=element.bind('<less>', lambda e: self.key("<"))
+            elif(c in string.whitespace):
+                self.bindings[c]=element.bind('<space>', lambda e: self.key(" "))
+            elif(c.isupper()):
+                self.bindings[c]=element.bind('<Shift-'+c+'>', lambda e,q=c: self.key(q))
             else:
-                element.bind(c, lambda: self.key(c))
+                self.bindings[c]=element.bind(c, lambda e,q=c: self.key(q))
 
     def key(self, k):
-        print('detected keypress:', k)
+        #print('detected keypress:', k)
         self.target(k)
 
 root = gui.Tk()
