@@ -74,37 +74,43 @@ class AsetniopTrainer(object):
     def home(self):
         """Switch to home tab."""
         log("info", "Switch to home tab.")
+        self.active_tab.destroy()
         self.active_tab = Home(self.master)
 
     def learn(self):
         """Switch to learn tab."""
         log("info", "Switch to learn tab.")
+        self.active_tab.destroy()
         self.active_tab = Learn(self.master)
 
     def review(self):
         """Switch to review tab."""
         log("info", "Switch to review tab.")
+        self.active_tab.destroy()
         self.active_tab = Review(self.master)
 
     def stats(self):
         """Switch to stats tab."""
         log("info", "Switch to stats tab.")
+        self.active_tab.destroy()
         self.active_tab = Stats(self.master)
 
     def settings(self):
         """Switch to settings tab."""
         log("info", "Switch to settings tab.")
+        self.active_tab.destroy()
         self.active_tab = Settings(self.master)
 
     def help_(self):
         """Switch to help tab."""
         log("info", "Switch to help tab.")
+        self.active_tab.destroy()
         self.active_tab = Help(self.master)
 
     def quit(self):
         """Exit application."""
         log("info", "Exit application.")
-        del self.active_tab
+        self.active_tab.destroy()
         self.master.quit()
 
 if __name__ == "__main__":
@@ -112,7 +118,8 @@ if __name__ == "__main__":
 
     # Fonts can't be created prior to the root object,
     # so we do so here.
-    CONFIG.large_font = tkFont.Font(family="Arial", size=30)
+    CONFIG.h1_font = tkFont.Font(family="Arial", size=30)
+    CONFIG.h2_font = tkFont.Font(family="Arial", size=15)
     CONFIG.very_large_font = tkFont.Font(family="Arial", size=100)
     asetniop_trainer = AsetniopTrainer(root)
 
