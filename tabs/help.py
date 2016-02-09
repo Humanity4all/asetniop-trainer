@@ -17,13 +17,13 @@ class Help(object):
         self.title = gui.Label(
             self.frame,
             text=_("Help"),
-            font=CONFIG.large_font)
+            font=CONFIG.h1_font)
         self.title.grid(row=1, column=5, sticky=gui.W, columnspan=10)
 
         # Make frame visible
         self.frame.grid(row=2, column=1, rowspan=15, columnspan=9)
 
-    def __del__(self):
+    def destroy(self):
         """Remove frame."""
         # No idea what the difference between grid_remove and
         # grid_forget is, but we'll call them both to be sure.
