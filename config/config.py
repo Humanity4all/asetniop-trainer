@@ -15,7 +15,8 @@ class Config(object):
         self.language = "nl"
         # Fonts can't be created prior to the tk root object,
         # so there are just stubs that asetnioptrainer.py will fill.
-        self.large_font = None
+        self.h1_font = None
+        self.h2_font = None
         self.very_large_font = None
 
 CONFIG = Config()
